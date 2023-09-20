@@ -6,11 +6,11 @@
  
 SoftwareSerial nodemcu(D6, D5);
  
-const char* ssid     = "....";   //Wifi ssid
-const char* password = ".......";  //Wifi jelszó
+const char* ssid     = "...."; 
+const char* password = ".......";
  
  
-const char* serverName = "http://foliasator.000webhostapp.com/post_foliasator_data.php"; // Ez az a link ahol a post-esp-data.php-t lehet elérni.
+const char* serverName = "http://foliasator.000webhostapp.com/post_foliasator_data.php";
  
 String apiKeyValue = "tPmAT5Ab3j7F9";
  
