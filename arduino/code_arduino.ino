@@ -11,10 +11,10 @@ DHT dht(DHTPIN, DHTTYPE);
 int chk;
 float humidity;
 float temperature;
-int trigpin = 8;  // Ez a távolságérzékelő Trig pinje
-int echopin = 9;  // Ez a távolságérzékelő Echo pinje
+int trigpin = 8;
+int echopin = 9;
 int distance;     
-int duration;     // Ebbe a változóba lesz eltárolva a távolság
+int duration;
 int moistureSensor; 
 int moisture;
 int lightSensor;
@@ -31,7 +31,7 @@ void setup() {
   pinMode (relepin, OUTPUT);
 }
 
-int tavolsag(){   // Ez a távolság kiszámítására szolgáló függvény
+int tavolsag(){ 
   int fv;
   digitalWrite(trigpin, LOW);
   delayMicroseconds(2);
@@ -47,10 +47,10 @@ void loop() {
   StaticJsonBuffer<1000> jsonBuffer;
   JsonObject& data = jsonBuffer.createObject();
 
-  lightSensor = analogRead(A0); //light sensor
+  lightSensor = analogRead(A0);
   distance = tavolsag();
   moistureSensor = analogRead(A1);
-  moisture= map(moistureSensor, nedves, szaraz, 100, 0); //itt a fent említett map függvény
+  moisture= map(moistureSensor, nedves, szaraz, 100, 0); 
   humidity = dht.readHumidity();
   temperature= dht.readTemperature();
   /*if (moisture < 50)
