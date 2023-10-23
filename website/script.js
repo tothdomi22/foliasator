@@ -113,12 +113,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     const reading = currentItem.reading_time;
 
                     // Display the data
-                    text_tempvalue.innerHTML = `<p>${temperature}°C</p>`;
-                    text_humvalue.innerHTML = `<p>${humidity}%</p>`;
-                    text_moistvalue.innerHTML = `<p>${moisture}%</p>`;
-                    text_watervalue.innerHTML = `<p>${distance}cm</p>`;
-                    text_lightvalue.innerHTML = `<p>${lightSensor}</p>`;
-                    text_updatevalue.innerHTML = `<p>${reading}</p>`;
+                    text_tempvalue.innerHTML = `${temperature}°C`;
+                    text_humvalue.innerHTML = `${humidity}%`;
+                    text_moistvalue.innerHTML = `${moisture}%`;
+                    text_watervalue.innerHTML = `${distance}cm`;
+                    text_lightvalue.innerHTML = `${lightSensor}`;
+                    text_updatevalue.innerHTML = `${reading}`;
                 }
             } else {
                 console.log('Received data is not an array:', json_data);
@@ -128,6 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('Fetch error:', error);
         });
 });
+
 
 
 

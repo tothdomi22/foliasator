@@ -160,7 +160,7 @@ body::after{
 
 .temp p, .hum p, .moist p, .water p, .light p {
     position: relative;
-    top: 80px;
+    top: 30%;
 }
 
 .last_update h2 {
@@ -171,5 +171,4 @@ body::after{
     position: relative;
     top: 18px;
 }
-
 

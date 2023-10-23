@@ -1,3 +1,7 @@
+<?php
+if (isset($_COOKIE["user_id"])) {
+    $user_id = $_COOKIE["user_id"];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,3 +71,9 @@
     <script src="script.js"></script>
 </body>
 </html>
+<?php
+}else {
+    // Ha a sütikezet nem létezik, irányítsa át vagy jelenítsen meg hibaüzenetet
+    header("Location: index.php"); // Irányítson át egy másik oldalra
+    exit(); // Ne jelenítse meg az oldal tartalmát
+}
