@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const text_lightvalue = document.getElementById("lightvalue");
     const text_updatevalue = document.getElementById("updatevalue");
 
-    fetch('localhost:3307/get_folia_data.php')
+    fetch('get_folia_data.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -113,12 +113,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     const reading = currentItem.reading_time;
 
                     // Display the data
-                    text_tempvalue.innerHTML = `<p>${temperature}°C</p>`;
-                    text_humvalue.innerHTML = `<p>${humidity}%</p>`;
-                    text_moistvalue.innerHTML = `<p>${moisture}%</p>`;
-                    text_watervalue.innerHTML = `<p>${distance}cm</p>`;
-                    text_lightvalue.innerHTML = `<p>${lightSensor}</p>`;
-                    text_updatevalue.innerHTML = `<p>${reading}</p>`;
+                    text_tempvalue.innerHTML = `${temperature}°C`;
+                    text_humvalue.innerHTML = `${humidity}%`;
+                    text_moistvalue.innerHTML = `${moisture}%`;
+                    text_watervalue.innerHTML = `${distance}cm`;
+                    text_lightvalue.innerHTML = `${lightSensor}`;
+                    text_updatevalue.innerHTML = `${reading}`;
                 }
             } else {
                 console.log('Received data is not an array:', json_data);
