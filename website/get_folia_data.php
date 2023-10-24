@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'localhost:3307');
 define('DB_USERNAME', 'id21264970_esp_board');
 define('DB_PASSWORD', 'Admin123!');
 define('DB_NAME', 'id21264970_projektmunka');

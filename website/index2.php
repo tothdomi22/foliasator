@@ -1,3 +1,11 @@
+<?php
+$token_is_valid = 0;
+include('tokenvalid.php');
+if ($token_is_valid==0) {
+    header("Location: index.php"); // Irányítson át egy másik oldalra
+    exit(); // Ne jelenítse meg az oldal tartalmát
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,35 +30,35 @@
 
         <div id= "temp" class="temp" onclick="changecolor(this)">
             <h2 id="temptext"><span class="material-symbols-outlined">
-                device_thermostat
+device_thermostat
                 </span>Temp</h2>
             <p id="tempvalue">-</p>
         </div>
 
         <div id="hum" class="hum" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-                humidity_percentage
+humidity_percentage
                 </span>Hum</h2>
             <p id="humvalue">-</p>
         </div>
 
         <div id="moist" class="moist" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-                potted_plant
+potted_plant
                 </span>Moist</h2>
             <p id="moistvalue">-</p>
         </div>
 
         <div id="water" class="water" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-                water_full
+water_full
                 </span>W. lvl</h2>
             <p id="watervalue">-</p>
         </div>
 
         <div id="light" class="light" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-                light_mode
+light_mode
                 </span>Light</h2>
             <p id="lightvalue">-</p>
         </div>

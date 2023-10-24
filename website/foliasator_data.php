@@ -2,7 +2,7 @@
 <html><body>
 <?php
 
-$servername = "localhost";
+$servername = "localhost:3307";
 
 $dbname = "id21264970_projektmunka";
 $username = "id21264970_esp_board";

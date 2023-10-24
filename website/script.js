@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const text_lightvalue = document.getElementById("lightvalue");
     const text_updatevalue = document.getElementById("updatevalue");
 
-    fetch('https://foliasator.000webhostapp.com/get_folia_data.php')
+    fetch('localhost:3307/get_folia_data.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
