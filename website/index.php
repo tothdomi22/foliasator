@@ -25,13 +25,13 @@ if ($token_is_valid==1) { // if the jwt token is valid this change the page to $
 <h2>Regisztráció</h2>
 <form action="register.php" method="POST">
     <label for="username">Felhasználónév:</label>
-    <input type="text" id="username" name="username" required><br><br>
+    <input type="text" id="username_reg" name="username_reg" required><br><br>
 
     <label for="email">E-mail cím:</label>
     <input type="email" id="email" name="email" required><br><br>
 
     <label for="password">Jelszó:</label>
-    <input type="password" id="password" name="password" required><br><br>
+    <input type="password" id="password_reg" name="password_reg" required><br><br>
     <span class='error'>
         <?php
         if (isset($_GET["error_messagereg"])) {
@@ -43,10 +43,10 @@ if ($token_is_valid==1) { // if the jwt token is valid this change the page to $
 <h2>Bejelentkezés</h2>
 <form action="login.php" method="post">
     <label for="username">Felhasználónév:</label>
-    <label for="username"></label><input type="text" id="username" name="username" required><br><br>
+    <label for="username"></label><input type="text" id="username_log" name="username_log" required><br><br>
 
     <label for="password">Jelszó:</label>
-    <label for="password"></label><input type="password" id="password" name="password" required><br><br>
+    <label for="password"></label><input type="password" id="password_log" name="password_log" required><br><br>
     <span class='error'>
         <?php
         if (isset($_GET["error_messagelog"])) {

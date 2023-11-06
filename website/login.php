@@ -10,11 +10,13 @@ $username = $configuration['username'];
 $password = $configuration['password'];
 $URL = $configuration['URL'];
 
-$password1 = $_POST['password'];
-$user = $_POST['username'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $password_log = $_POST['password_log'] ?? null;
+    $user = $_POST['username_log'] ?? null;
+}
 $login = 0;
 $storedPasswordHash = "";
-$user_id= 0;
+$user_id = 0;
 
 $conn = new mysqli($servername, $username, $password, $dbname); // Connect to the database.
 
@@ -35,7 +37,7 @@ if ($result->num_rows > 0) {
     exit;
 }
 
-if (password_verify($password1 , $storedPasswordHash)) {
+if (password_verify($password_log , $storedPasswordHash)) {
     // The login is successful.
     $login = 1;
     $_SESSION['username'] = $user;

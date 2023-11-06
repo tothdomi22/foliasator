@@ -10,10 +10,11 @@ $username = $configuration['username'];
 $password = $configuration['password'];
 $URL = $configuration['URL'];
 
-$user_password = $_POST['password'];
-$user = $_POST['username'];
+$user_password = $_POST['password_reg'];
+$user = $_POST['username_reg'];
 $email = $_POST['email'];
 $login = 0;
+$user_id = 0;
 
 $stored_password_hash="";
 
@@ -54,9 +55,24 @@ if ($result->num_rows > 0) {
     //The username does not yet exist, so it can be added to the database.
     $sql = "INSERT INTO users (username, email, password_hash)
             VALUES ('$user', '$email', '$passwordHash')";// Insert the data in the database.
-    include('login.php'); //Login if the user is not exist
+     $login=1; //Login if the user is not exist
     if ($conn->query($sql) === FALSE) {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
-
+if ($login == 1) { // If the login is successful set cookies
+    $sql = "SELECT user_id FROM users WHERE username = '$user'"; //select password hash and
+//user id from the users where username is $user.
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        // output data of each row
+        while ($row = $result->fetch_assoc()) {
+            $user_id = $row["user_id"];
+        }
+    }
+    include('set_cookies.php');
+    setCookies($user_id);
+}
+else{
+    header("Location:$URL/index.php"); // if login is not successful change the page to $URL/index.php
+}
