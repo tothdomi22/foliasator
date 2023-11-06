@@ -1,5 +1,25 @@
+<?php
+
+include('get_config_json.php');
+$configuration = $_SESSION['configuration'];
+
+// Access the configuration variables like this:
+$URL = $configuration['URL'];
+$domain = $configuration['domain'];
+
+$token_is_valid = 0;
+
+include('token_valid.php');
+
+// if the jwt token is valid this change the page to $URL/index.php
+
+if ($token_is_valid==0) {
+    header("Location:$URL/index.php");
+    exit(); // if not exit the php
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
@@ -11,7 +31,7 @@
 <body>
     <div class="container">
 
-        <div id="title", class="title">
+        <div id="title" class="title">
             <h2>Fóliasátor automatizálás</h2>
         </div>
 
@@ -22,35 +42,35 @@
 
         <div id= "temp" class="temp" onclick="changecolor(this)">
             <h2 id="temptext"><span class="material-symbols-outlined">
-                device_thermostat
+device_thermostat
                 </span>Temp</h2>
             <p id="tempvalue">-</p>
         </div>
 
         <div id="hum" class="hum" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-                humidity_percentage
+humidity_percentage
                 </span>Hum</h2>
             <p id="humvalue">-</p>
         </div>
 
         <div id="moist" class="moist" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-                potted_plant
+potted_plant
                 </span>Moist</h2>
             <p id="moistvalue">-</p>
         </div>
 
         <div id="water" class="water" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-                water_full
+water_full
                 </span>W. lvl</h2>
             <p id="watervalue">-</p>
         </div>
 
         <div id="light" class="light" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-                light_mode
+light_mode
                 </span>Light</h2>
             <p id="lightvalue">-</p>
         </div>

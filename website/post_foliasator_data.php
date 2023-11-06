@@ -1,10 +1,13 @@
 <?php
 
-$servername = "localhost";
+include('get_config_json.php');
+$configuration = $_SESSION['configuration'];
 
-$dbname = "id21264970_projektmunka";
-$username = "id21264970_esp_board";
-$password = "Admin123!";
+// Access the configuration variables like this:
+$servername = $configuration['servername'];
+$dbname = $configuration['dbname'];
+$username = $configuration['username'];
+$password = $configuration['password'];
 
 $api_key_value = "tPmAT5Ab3j7F9";
 
@@ -45,9 +48,9 @@ else {
     echo "No data posted with HTTP POST.";
 }
 
-function test_input($data) {
+function test_input($data): string
+{
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+    return htmlspecialchars($data);
 }

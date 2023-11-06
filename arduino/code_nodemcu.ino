@@ -10,7 +10,7 @@ const char* ssid     = "....";
 const char* password = ".......";
  
  
-const char* serverName = "http://foliasator.000webhostapp.com/post_foliasator_data.php";
+const char* serverName = "https://creolized-gardens.000webhostapp.com/post_foliasator_data.php";
  
 String apiKeyValue = "tPmAT5Ab3j7F9";
  

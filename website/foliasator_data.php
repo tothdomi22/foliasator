@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html><body>
+<html lang="hu"><body>
 <?php
 
-$servername = "localhost";
 
-$dbname = "id21264970_projektmunka";
-$username = "id21264970_esp_board";
-$password = "Admin123!";
+include('get_config_json.php');
+$configuration = $_SESSION['configuration'];
 
+// Access the configuration variables like this:
+$servername = $configuration['servername'];
+$dbname = $configuration['dbname'];
+$username = $configuration['username'];
+$password = $configuration['password'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -26,7 +29,7 @@ echo '<table cellspacing="5" cellpadding="5">
         <td>Temperature</td>
         <td>Light Sensor</td>
         <td>Timestamp</td>
-      </tr>';
+      </tr></table>';
  
 if ($result = $conn->query($sql)) {
     while ($row = $result->fetch_assoc()) {
@@ -54,6 +57,6 @@ if ($result = $conn->query($sql)) {
 
 $conn->close();
 ?> 
-</table>
+
 </body>
 </html>
