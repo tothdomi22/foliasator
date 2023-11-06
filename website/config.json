@@ -1,4 +1,10 @@
 {
-"access_secret": "g6yK3DUNt57dpSqIxF6PbUk1NlGnVGIb",
-"refresh_secret": "kHfIWdjkZpzCicEbv870TGtUUD5Z4VGp"
+  "access_secret": "g6yK3DUNt57dpSqIxF6PbUk1NlGnVGIb",
+  "refresh_secret": "kHfIWdjkZpzCicEbv870TGtUUD5Z4VGp",
+  "servername": "localhost",
+  "dbname": "id19596595_projektmunka",
+  "username": "id19596595_esp_board",
+  "password":"Admin123!",
+  "URL": "https://creolized-gardens.000webhostapp.com",
+  "domain": "creolized-gardens.000webhostapp.com"
 }

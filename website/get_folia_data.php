@@ -1,16 +1,19 @@
 <?php
+/*
+ * This php get the date from the sql and convert into json.
+ */
+include('get_config_json.php');
+$configuration = $_SESSION['configuration'];
+
+// Access the configuration variables like this:
+$servername = $configuration['servername'];
+$dbname = $configuration['dbname'];
+$username = $configuration['username'];
+$password = $configuration['password'];
+
 header('Content-Type: application/json');
 
-define('DB_HOST', 'localhost:3307');
-define('DB_USERNAME', 'id21264970_esp_board');
-define('DB_PASSWORD', 'Admin123!');
-define('DB_NAME', 'id21264970_projektmunka');
-
-$mysqli = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
-
-if (!$mysqli) {
-    die("Connection failed: " . $mysqli->error);
-}
+$mysqli = new mysqli($servername,$username ,$password ,$dbname);
 
 $query = "SELECT distance, moisture, humidity, temperature, lightSensor, reading_time FROM foliasator  ORDER BY ID DESC LIMIT 2";
 $result = $mysqli->query($query);
@@ -37,4 +40,3 @@ if ($result->num_rows > 0) {
 
     echo json_encode([]);
 }
-?>

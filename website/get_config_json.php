@@ -1,14 +1,21 @@
 <?php
-$configFile = 'config.json';
-if (file_exists($configFile)) {
-    $config = json_decode(file_get_contents($configFile), true);
+/*
+ * this php reads the config file and converts the data in it into a variable.
+ */
 
-    // Ellenőrizd, hogy a fájl sikeresen beolvasható-e
-    if ($config === null) {
-        die('Hiba a konfigurációs fájl beolvasása közben.');
+if (!isset($_SESSION['configuration'])) {
+    // If configuration is not already stored in the session, load it from the JSON file
+    $configFile = 'config.json';
+
+    if (file_exists($configFile) && is_readable($configFile)) {
+        $config = json_decode(file_get_contents($configFile), true);
+
+        if ($config !== null) {
+            $_SESSION['configuration'] = $config;
+        } else {
+            die('Error decoding the configuration file.');
+        }
+    } else {
+        die('The configuration file is not found or not readable.');
     }
-} else {
-    die('A konfigurációs fájl nem található.');
 }
-$access_secret = $config['access_secret'];
-$refresh_secret = $config['refresh_secret'];

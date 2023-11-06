@@ -1,10 +1,16 @@
 <?php
+
 include('get_config_json.php');
+$configuration = $_SESSION['configuration'];
+
+// Access the configuration variables like this:
+$access_secret = $configuration['access_secret'];
+$refresh_secret = $configuration['refresh_secret'];
 
 require 'vendor/autoload.php'; // Include the JWT library
 
 use Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
+use Firebase\JWT\Key;
 
 $token_is_valid = 0;
 
@@ -20,8 +26,6 @@ if (isset($_COOKIE['access_token']) && is_string($_COOKIE['access_token'])) {
     } catch (Exception $e) {
         // Access token is invalid
     }
-} else {
-    echo "Invalid or missing access token cookie.";
 }
 
 if (isset($_COOKIE['refresh_token']) && is_string($_COOKIE['refresh_token'])) {
@@ -35,8 +39,4 @@ if (isset($_COOKIE['refresh_token']) && is_string($_COOKIE['refresh_token'])) {
     } catch (Exception $e) {
         // Refresh token is invalid, the user needs to reauthenticate
     }
-} else {
-    echo "Invalid or missing refresh token cookie.";
 }
-
-// Continue with your code

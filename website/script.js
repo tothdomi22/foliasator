@@ -91,42 +91,57 @@ document.addEventListener("DOMContentLoaded", function () {
     const text_lightvalue = document.getElementById("lightvalue");
     const text_updatevalue = document.getElementById("updatevalue");
 
-    fetch('get_folia_data.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Parse the response as JSON
-        })
-        .then(json_data => {
-            if (Array.isArray(json_data)) {
-                console.log(json_data);
+    fetch('config.json')
+        .then(response => response.json())
+        .then(config => {
+            // Use the 'URL' from the configuration
+            const baseUrl = config.URL;
 
-                // Assuming you want to process the first item in the array
-                if (json_data.length > 0) {
-                    const currentItem = json_data[0];
-                    const distance = currentItem.distance;
-                    const moisture = currentItem.moisture;
-                    const humidity = currentItem.humidity;
-                    const temperature = currentItem.temperature;
-                    const lightSensor = currentItem.lightSensor;
-                    const reading = currentItem.reading_time;
+            // Construct the URL for the data fetch request
+            const dataUrl = `${baseUrl}/get_folia_data.php`;
 
-                    // Display the data
-                    text_tempvalue.innerHTML = `${temperature}°C`;
-                    text_humvalue.innerHTML = `${humidity}%`;
-                    text_moistvalue.innerHTML = `${moisture}%`;
-                    text_watervalue.innerHTML = `${distance}cm`;
-                    text_lightvalue.innerHTML = `${lightSensor}`;
-                    text_updatevalue.innerHTML = `${reading}`;
-                }
-            } else {
-                console.log('Received data is not an array:', json_data);
-            }
+            // Fetch data from the constructed URL
+            fetch(dataUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Parse the response as JSON
+                })
+                .then(json_data => {
+                    if (Array.isArray(json_data)) {
+                        console.log(json_data);
+
+                        // Assuming you want to process the first item in the array
+                        if (json_data.length > 0) {
+                            const currentItem = json_data[0];
+                            const distance = currentItem.distance;
+                            const moisture = currentItem.moisture;
+                            const humidity = currentItem.humidity;
+                            const temperature = currentItem.temperature;
+                            const lightSensor = currentItem.lightSensor;
+                            const reading = currentItem.reading_time;
+
+                            // Display the data
+                            text_tempvalue.innerHTML = `${temperature}°C`;
+                            text_humvalue.innerHTML = `${humidity}%`;
+                            text_moistvalue.innerHTML = `${moisture}%`;
+                            text_watervalue.innerHTML = `${distance}cm`;
+                            text_lightvalue.innerHTML = `${lightSensor}`;
+                            text_updatevalue.innerHTML = `${reading}`;
+                        }
+                    } else {
+                        console.log('Received data is not an array:', json_data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                });
         })
         .catch(error => {
-            console.error('Fetch error:', error);
+            console.error('Error fetching config.json:', error);
         });
+
 });
 
 

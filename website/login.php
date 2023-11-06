@@ -1,24 +1,25 @@
 <?php
 
-require 'vendor/autoload.php'; // Include the JWT library
-
-use Firebase\JWT\JWT;
-
 include('get_config_json.php');
+$configuration = $_SESSION['configuration'];
 
-$servername = "localhost:3307";
+// Access the configuration variables like this:
+$servername = $configuration['servername'];
+$dbname = $configuration['dbname'];
+$username = $configuration['username'];
+$password = $configuration['password'];
+$URL = $configuration['URL'];
 
-$dbname = "id21264970_projektmunka";
-$username = "id21264970_esp_board";
-$password = "Admin123!";
-$password1 = $_POST['password1'];
-$user = $_POST['username1'];
+$password1 = $_POST['password'];
+$user = $_POST['username'];
 $login = 0;
 $storedPasswordHash = "";
+$user_id= 0;
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname); // Connect to the database.
 
-$sql = "SELECT password_hash, user_id FROM users WHERE username = '$user'";
+$sql = "SELECT password_hash, user_id FROM users WHERE username = '$user'"; //select password hash and
+//user id from the users where username is $user.
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
@@ -27,8 +28,7 @@ if ($result->num_rows > 0) {
         $user_id = $row["user_id"];
     }
 } else {
-    // Sikertelen bejelentkezés
-    #echo "Hibás jelszó vagy felhasználónév!";
+    // The login is not successful, because there is no user with this username.
     $error_messagelog = "Hibás felhasználónév vagy jelszó!";
     //echo $error_message;
     header("Location: index.php?error_messagelog=" . urlencode($error_messagelog));
@@ -36,34 +36,23 @@ if ($result->num_rows > 0) {
 }
 
 if (password_verify($password1 , $storedPasswordHash)) {
-    // Sikeres bejelentkezés
-    echo "Sikeres bejelentkezés!";
+    // The login is successful.
     $login = 1;
+    $_SESSION['username'] = $user;
 } else {
-    // Sikertelen bejelentkezés
+    // // The login is not successful, because the password is not match.
     $error_messagelog = "Hibás felhasználónév vagy jelszó!";
-    //header("Location: index.php");
     header("Location: index.php?error_messagelog=" . urlencode($error_messagelog));
     exit;
 }
 
 
 $conn->close();
-if ($login == 1) {
-    $refresh_token_expiry = time() + 30 * 24 * 60 * 60;
-    $access_token_expiry = time() + 3600;
 
-    // Generate a new access token
-    $access_token = JWT::encode(['user_id' => $user_id], $access_secret, 'HS256', $access_token_expiry);
-
-// Generate a refresh token
-    $refresh_token = JWT::encode(['user_id' => $user_id], $refresh_secret, 'HS256', $refresh_token_expiry);
-
-    setcookie('access_token', $access_token, $access_token_expiry, "/", "", true, true);// Secure and HttpOnly
-    setcookie("refresh_token", $refresh_token, $refresh_token_expiry, "/", "", true, true);
-    header("Location: index2.php");
+if ($login == 1) { // If the login is successful set cookies
+    include('set_cookies.php');
+    setCookies($user_id);
 }
 else{
-    header("Location: index.php");
+    header("Location:$URL/index.php"); // if login is not successful change the page to $URL/index.php
 }
-exit;

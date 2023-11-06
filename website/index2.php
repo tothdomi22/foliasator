@@ -1,13 +1,25 @@
 <?php
+
+include('get_config_json.php');
+$configuration = $_SESSION['configuration'];
+
+// Access the configuration variables like this:
+$URL = $configuration['URL'];
+$domain = $configuration['domain'];
+
 $token_is_valid = 0;
-include('tokenvalid.php');
+
+include('token_valid.php');
+
+// if the jwt token is valid this change the page to $URL/index.php
+
 if ($token_is_valid==0) {
-    header("Location: index.php"); // Irányítson át egy másik oldalra
-    exit(); // Ne jelenítse meg az oldal tartalmát
+    header("Location:$URL/index.php");
+    exit(); // if not exit the php
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
@@ -19,7 +31,7 @@ if ($token_is_valid==0) {
 <body>
     <div class="container">
 
-        <div id="title", class="title">
+        <div id="title" class="title">
             <h2>Fóliasátor automatizálás</h2>
         </div>
 

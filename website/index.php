@@ -1,13 +1,23 @@
 <?php
+
+session_start();
+
+include('get_config_json.php');
+$configuration = $_SESSION['configuration'];
+
+// Access the configuration variables like this:
+$URL = $configuration['URL'];
+$domain = $configuration['domain'];
+
 $token_is_valid = 0;
-include('tokenvalid.php');
-if ($token_is_valid==1) {
-    header("Location: index2.php"); // Irányítson át egy másik oldalra
-    exit(); // Ne jelenítse meg az oldal tartalmát
+include('token_valid.php');
+if ($token_is_valid==1) { // if the jwt token is valid this change the page to $URL/index2.php
+    header("Location:$URL/index2.php"); // This
+    exit(); // if not exit the php
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <title>Regisztráció</title>
 </head>
@@ -33,10 +43,10 @@ if ($token_is_valid==1) {
 <h2>Bejelentkezés</h2>
 <form action="login.php" method="post">
     <label for="username">Felhasználónév:</label>
-    <input type="text" id="username1" name="username1" required><br><br>
+    <label for="username"></label><input type="text" id="username" name="username" required><br><br>
 
     <label for="password">Jelszó:</label>
-    <input type="password" id="password1" name="password1" required><br><br>
+    <label for="password"></label><input type="password" id="password" name="password" required><br><br>
     <span class='error'>
         <?php
         if (isset($_GET["error_messagelog"])) {
