@@ -1,86 +1,4 @@
-(async function() {
-    const data = [
-      { year: 2010, count: 23 },
-      { year: 2011, count: 22 },
-      { year: 2012, count: 21 },
-      { year: 2013, count: 25 },
-      { year: 2014, count: 26 },
-      { year: 2015, count: 29 },
-      { year: 2016, count: 21 },
-      { year: 2016, count: 26 },
-      { year: 2016, count: 24 },
-      { year: 2016, count: 25 },
-      { year: 2016, count: 26 },
-      { year: 2016, count: 22 },
-      { year: 2016, count: 22 },
 
-    ];
-  
-    new Chart(
-      document.getElementById('myChart'),
-      {
-        type: 'line',
-        options: {
-            maintainAspectRatio: false,
-            responsive: true,
-            scales: {
-                x: {
-                    grid: {
-                        color: "rgba(255,255,255,0.3)"
-                    },
-                    ticks: {
-                        color: "rgba(255,255,255,0)"
-                    }
-                },
-                y: {
-                    grid: {
-                        color: "rgba(255,255,255,0.3)"
-                    },
-                    ticks: {
-                        color: "rgba(255,255,255,1.3)"
-                    }
-                }
-            },
-            plugins: {
-                legend: {
-                    labels:{
-                        color: "rgba(255,255,255,1.3)"
-                    }
-                }
-            }
-            
-        },
-        data: {
-          labels: data.map(row => row.year),
-          datasets: [{
-              label: 'Temperature',
-              data: data.map(row => row.count),
-              borderColor: 'rgb(255, 255, 55)',
-              fill:false,
-              tension: 0.2,
-              pointRadius: 3
-            }]
-        }
-      }
-    );
-  })();
-
-
-
-
-function resetdiv() {
-    document.getElementById("temp").style.backgroundColor= "#2C87BF"
-    document.getElementById("hum").style.backgroundColor= "#2C87BF"
-    document.getElementById("moist").style.backgroundColor= "#2C87BF"
-    document.getElementById("water").style.backgroundColor= "#2C87BF"
-    document.getElementById("light").style.backgroundColor= "#2C87BF"
-}
-
-
-function changecolor(element) {
-    resetdiv();
-    element.style.backgroundColor = "#67A7CE"
-}
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -91,63 +9,293 @@ document.addEventListener("DOMContentLoaded", function () {
     const text_lightvalue = document.getElementById("lightvalue");
     const text_updatevalue = document.getElementById("updatevalue");
 
-    fetch('config.json')
-        .then(response => response.json())
-        .then(config => {
-            // Use the 'URL' from the configuration
-            const baseUrl = config.URL;
+    fetch('https://foliasator.000webhostapp.com/getalldata.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(json_data => {
+            if (Array.isArray(json_data)) {
+                console.log(json_data);
 
-            // Construct the URL for the data fetch request
-            const dataUrl = `${baseUrl}/get_folia_data.php`;
-
-            // Fetch data from the constructed URL
-            fetch(dataUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                if (json_data.length > 0) {
+                    var temperature_data = [];
+                    var reading_data = [];
+                    var moisture_data = [];
+                    var water_data = [];
+                    var light_data = [];
+                    var distance_data = [];
+                    var humidity_data = [];
+                    for(var i in json_data) {
+                        distance_data.push(json_data[i].distance);
+                        moisture_data.push(json_data[i].moisture);
+                        humidity_data.push(json_data[i].humidity);
+                        temperature_data.push(json_data[i].temperature);
+                        light_data.push(json_data[i].lightSensor);
+                        reading_data.push(json_data[i].reading_time);
                     }
-                    return response.json(); // Parse the response as JSON
-                })
-                .then(json_data => {
-                    if (Array.isArray(json_data)) {
-                        console.log(json_data);
 
-                        // Assuming you want to process the first item in the array
-                        if (json_data.length > 0) {
-                            const currentItem = json_data[0];
-                            const distance = currentItem.distance;
-                            const moisture = currentItem.moisture;
-                            const humidity = currentItem.humidity;
-                            const temperature = currentItem.temperature;
-                            const lightSensor = currentItem.lightSensor;
-                            const reading = currentItem.reading_time;
+                    text_tempvalue.innerHTML = `<p>${temperature_data[json_data.length -1]}°C</p>`;
+                    text_humvalue.innerHTML = `<p>${humidity_data[json_data.length -1]}%</p>`;
+                    text_moistvalue.innerHTML = `<p>${moisture_data[json_data.length -1]}%</p>`;
+                    text_watervalue.innerHTML = `<p>${distance_data[json_data.length -1]}cm</p>`;
+                    text_lightvalue.innerHTML = `<p>${light_data[json_data.length -1]}</p>`;
+                    text_updatevalue.innerHTML = `<p>${reading_data[json_data.length -1]}</p>`;
 
-                            // Display the data
-                            text_tempvalue.innerHTML = `${temperature}°C`;
-                            text_humvalue.innerHTML = `${humidity}%`;
-                            text_moistvalue.innerHTML = `${moisture}%`;
-                            text_watervalue.innerHTML = `${distance}cm`;
-                            text_lightvalue.innerHTML = `${lightSensor}`;
-                            text_updatevalue.innerHTML = `${reading}`;
-                        }
-                    } else {
-                        console.log('Received data is not an array:', json_data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                });
+                        new Chart(
+                            document.getElementById('temp_chart'),
+                            {
+                                type: 'line',
+                                options: {
+                                    animation:false,
+                                    maintainAspectRatio: false,
+                                    responsive: true,
+                                    scales: {
+                                        x: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                        ticks: {display:false}
+                                        },
+                                        y: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                            ticks: {color: "rgba(255,255,255,1.3)"}
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {labels:{color: "rgba(255,255,255,1.3)"}}
+                                    }
+                                },
+                                data: {
+                                    labels: reading_data,
+                                    datasets: [{
+                                        label: 'Temperature',
+                                        data: temperature_data,
+                                        borderColor: 'rgb(255, 255, 55)',
+                                        fill:false,
+                                        tension: 0.2,
+                                        pointRadius: 3
+                                    }]
+                                }
+                            }
+                        );
+                        new Chart(
+                            document.getElementById('hum_chart'),
+                            {
+                                type: 'line',
+                                options: {
+                                    animation:false,
+                                    maintainAspectRatio: false,
+                                    responsive: true,
+                                    scales: {
+                                        x: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                        ticks: {display:false}
+                                        },
+                                        y: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                            ticks: {color: "rgba(255,255,255,1.3)"}
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {labels:{color: "rgba(255,255,255,1.3)"}}
+                                    }
+                                },
+                                data: {
+                                    labels: reading_data,
+                                    datasets: [{
+                                        label: 'Humidity',
+                                        data: humidity_data,
+                                        borderColor: 'rgb(255, 255, 55)',
+                                        fill:false,
+                                        tension: 0.2,
+                                        pointRadius: 3
+                                    }]
+                                }
+                            }
+                        );
+
+                        new Chart(
+                            document.getElementById('moist_chart'),
+                            {
+                                type: 'line',
+                                options: {
+                                    animation:false,
+                                    maintainAspectRatio: false,
+                                    responsive: true,
+                                    scales: {
+                                        x: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                        ticks: {display:false}
+                                        },
+                                        y: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                            ticks: {color: "rgba(255,255,255,1.3)"}
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {labels:{color: "rgba(255,255,255,1.3)"}}
+                                    }
+                                },
+                                data: {
+                                    labels: reading_data,
+                                    datasets: [{
+                                        label: 'Moisture',
+                                        data: moisture_data,
+                                        borderColor: 'rgb(255, 255, 55)',
+                                        fill:false,
+                                        tension: 0.2,
+                                        pointRadius: 3
+                                    }]
+                                }
+                            }
+                        );
+
+                        new Chart(
+                            document.getElementById('water_chart'),
+                            {
+                                type: 'line',
+                                options: {
+                                    animation:false,
+                                    maintainAspectRatio: false,
+                                    responsive: true,
+                                    scales: {
+                                        x: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                        ticks: {display:false}
+                                        },
+                                        y: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                            ticks: {color: "rgba(255,255,255,1.3)"}
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {labels:{color: "rgba(255,255,255,1.3)"}}
+                                    }
+                                },
+                                data: {
+                                    labels: reading_data,
+                                    datasets: [{
+                                        label: 'Water level',
+                                        data: distance_data,
+                                        borderColor: 'rgb(255, 255, 55)',
+                                        fill:false,
+                                        tension: 0.2,
+                                        pointRadius: 3
+                                    }]
+                                }
+                            }
+                        );
+
+                        new Chart(
+                            document.getElementById('light_chart'),
+                            {
+                                type: 'line',
+                                options: {
+                                    animation:false,
+                                    maintainAspectRatio: false,
+                                    responsive: true,
+                                    scales: {
+                                        x: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                        ticks: {display:false}
+                                        },
+                                        y: {
+                                            grid: {color: "rgba(255,255,255,0.3)"},
+                                            ticks: {color: "rgba(255,255,255,1.3)"}
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: {labels:{color: "rgba(255,255,255,1.3)"}}
+                                    }
+                                },
+                                data: {
+                                    labels: reading_data,
+                                    datasets: [{
+                                        label: 'Light value',
+                                        data: light_data,
+                                        borderColor: 'rgb(255, 255, 55)',
+                                        fill:false,
+                                        tension: 0.2,
+                                        pointRadius: 3
+                                    }]
+                                }
+                            }
+                        );
+
+
+                }
+            } else {
+                console.log('Received data is not an array:', json_data);
+            }
         })
         .catch(error => {
-            console.error('Error fetching config.json:', error);
+            console.error('Fetch error:', error);
         });
-
 });
 
 
+function resetdiv() {
+    document.getElementById("temp").style.backgroundColor= "#2C87BF"
+    document.getElementById("hum").style.backgroundColor= "#2C87BF"
+    document.getElementById("moist").style.backgroundColor= "#2C87BF"
+    document.getElementById("water").style.backgroundColor= "#2C87BF"
+    document.getElementById("light").style.backgroundColor= "#2C87BF"
+}
+
+function hideallgraphs() {
+    document.getElementById("temp_graph").style.display="none";
+    document.getElementById("hum_graph").style.display="none";
+    document.getElementById("moist_graph").style.display="none";
+    document.getElementById("water_graph").style.display="none";
+    document.getElementById("light_graph").style.display="none";
+}
 
 
+function changecolor(element) {
+    resetdiv();
+    element.style.backgroundColor = "#67A7CE"
+    hideallgraphs();
+    if (temp === element) {
+        document.getElementById("temp_graph").style.display='block';
+    }
+    else if (hum === element) {
+        document.getElementById("hum_graph").style.display="block";
+    }
+    else if (moist === element) {
+        document.getElementById("moist_graph").style.display="block";
+    }
+    else if (water === element) {
+        document.getElementById("water_graph").style.display="block";
+    }
+    else if (light === element) {
+        document.getElementById("light_graph").style.display="block";
+    }
+}
+
+var moisture_slider = document.getElementById("moisture_slider");
+var output_moisture = document.getElementById("moisture_value");
+output_moisture.innerHTML = moisture_slider.value;
+
+moisture_slider.oninput = function() {
+    output_moisture.innerHTML = this.value;
+}
 
 
+var duration_slider = document.getElementById("duration_slider");
+var output_slider = document.getElementById("duration_value");
+output_slider.innerHTML = duration_slider.value;
+
+duration_slider.oninput = function() {
+    output_slider.innerHTML = this.value;
+}
 
 
+function changeColor_watering() {
+    var lightButton = document.getElementById("light_button");
+    lightButton.style.backgroundColor = "red";
+    var light_duration = duration_slider.value;
+    setTimeout(function() {
+      lightButton.style.backgroundColor = "";
+    }, light_duration*1000);
+  }
