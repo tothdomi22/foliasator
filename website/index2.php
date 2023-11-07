@@ -70,18 +70,38 @@ water_full
 
         <div id="light" class="light" onclick="changecolor(this)">
             <h2><span class="material-symbols-outlined">
-light_mode
+ light_mode
                 </span>Light</h2>
             <p id="lightvalue">-</p>
         </div>
 
-        <div class="temp_graph">
-            <canvas id="myChart"></canvas>
+        <div class="temp_graph" id="temp_graph"><canvas id="temp_chart"></canvas></div>
+        <div class="hum_graph" id="hum_graph"><canvas id="hum_chart"></canvas></div>
+        <div class="moist_graph" id="moist_graph"><canvas id="moist_chart"></canvas></div>
+        <div class="water_graph" id="water_graph"><canvas id="water_chart"></canvas></div>
+        <div class="light_graph" id="light_graph"><canvas id="light_chart"></canvas></div>
+<!--sliders-->
+        <div class="sliders">
+            <div class="sliderbox1"></div>
+            <div class="sliderbox2"></div>
+            <div class="moisture_slider_container">
+                <h2>Watering%
+                </h2>
+                <input type="range" min="1" max="100" value="50" class="slider_moisture" id="moisture_slider">
+                <p> <span id="moisture_value"></span>%</p>
+            </div>
+            <div class="watering_slider_container">
+                <h2>Duration</h2>
+                <input type="range" min="1" max="60" value="3" class="slider_watering" id="duration_slider">
+                <p> <span id="duration_value"></span>s</p>
+            </div>
         </div>
-        <div class="hum_graph"></div>
-        <div class="moist_graph"></div>
-        <div class="water_graph"></div>
-        <div class="light_graph"></div>
+<!--button-->
+        <div class="button_container">
+            <button class="button" onclick="changeColor_watering()">MANUAL WATERING</button>
+            <p class="watering_progress">Watering status</p>
+            <div class="light_button" id="light_button"></div>
+        </div>
 
     </div>
     <script src="script.js"></script>
