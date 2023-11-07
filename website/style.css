@@ -408,3 +408,15 @@ body::after{
     box-shadow: -1px 1px 15px 1px rgba(0,0,0,0.2);
   }
 
+  .buttonbox {
+    position: absolute;
+    top: 8%;
+    left: 95px;
+    width: 350px;
+    height: 600px;
+    background-color: #2C87BF;
+    border-radius: 32px;
+    text-align: center;
+    box-shadow: 4px 4px 12px 1px rgba(0,0,0,0.4);
+  }
+
