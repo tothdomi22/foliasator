@@ -98,6 +98,7 @@ water_full
         </div>
 <!--button-->
         <div class="button_container">
+            <div class="buttonbox"></div>
             <button class="button" onclick="changeColor_watering()">MANUAL WATERING</button>
             <p class="watering_progress">Watering status</p>
             <div class="light_button" id="light_button"></div>
