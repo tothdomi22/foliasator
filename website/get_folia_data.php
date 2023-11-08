@@ -15,7 +15,7 @@ header('Content-Type: application/json');
 
 $mysqli = new mysqli($servername,$username ,$password ,$dbname);
 
-$query = "SELECT distance, moisture, humidity, temperature, lightSensor, reading_time FROM foliasator  ORDER BY ID DESC LIMIT 2";
+$query = "SELECT distance, moisture, humidity, temperature, lightSensor, reading_time FROM foliasator  ORDER BY ID";
 $result = $mysqli->query($query);
 
 if ($result->num_rows > 0) {

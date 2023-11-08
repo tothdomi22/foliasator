@@ -87,12 +87,12 @@ water_full
             <div class="moisture_slider_container">
                 <h2>Watering%
                 </h2>
-                <input type="range" min="1" max="100" value="50" class="slider_moisture" id="moisture_slider">
+                <label for="moisture_slider"></label><input type="range" min="1" max="100" value="50" class="slider_moisture" id="moisture_slider">
                 <p> <span id="moisture_value"></span>%</p>
             </div>
             <div class="watering_slider_container">
                 <h2>Duration</h2>
-                <input type="range" min="1" max="60" value="3" class="slider_watering" id="duration_slider">
+                <label for="duration_slider"></label><input type="range" min="1" max="60" value="3" class="slider_watering" id="duration_slider">
                 <p> <span id="duration_value"></span>s</p>
             </div>
         </div>
