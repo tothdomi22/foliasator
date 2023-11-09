@@ -6,11 +6,19 @@ $configuration = $_SESSION['configuration'];
 // Access the configuration variables like this:
 $URL = $configuration['URL'];
 $domain = $configuration['domain'];
+$access_secret = $configuration['access_secret'];
+$refresh_secret = $configuration['refresh_secret'];
 
 $token_is_valid = 0;
 
 include('token_valid.php');
 
+if (isset($_COOKIE['access_token']) && is_string($_COOKIE['access_token'])) {
+    $token_is_valid = verifyToken($_COOKIE['access_token'], $access_secret);
+}
+if (isset($_COOKIE['access_token']) && is_string($_COOKIE['access_token'])) {
+    $token_is_valid = verifyToken($_COOKIE['refresh_token'], $refresh_secret);
+}
 // if the jwt token is valid this change the page to $URL/index.php
 
 if ($token_is_valid==0) {

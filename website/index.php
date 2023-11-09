@@ -8,9 +8,20 @@ $configuration = $_SESSION['configuration'];
 // Access the configuration variables like this:
 $URL = $configuration['URL'];
 $domain = $configuration['domain'];
+$access_secret = $configuration['access_secret'];
+$refresh_secret = $configuration['refresh_secret'];
 
 $token_is_valid = 0;
+
 include('token_valid.php');
+
+if (isset($_COOKIE['access_token']) && is_string($_COOKIE['access_token'])) {
+    $token_is_valid = verifyToken($_COOKIE['access_token'], $access_secret);
+}
+if (isset($_COOKIE['access_token']) && is_string($_COOKIE['access_token'])) {
+    $token_is_valid = verifyToken($_COOKIE['refresh_token'], $refresh_secret);
+}
+
 if ($token_is_valid==1) { // if the jwt token is valid this change the page to $URL/index2.php
     header("Location:$URL/index2.php"); // This
     exit(); // if not exit the php
@@ -55,5 +66,6 @@ if ($token_is_valid==1) { // if the jwt token is valid this change the page to $
         } ?></span><br><br>
     <input type="submit" value="Bejelentkezés">
 </form>
+<a href="<?php echo "$URL/forgot_password.php";?>">Elfelejtetted a jelszavad?</a>
 </body>
 </html>

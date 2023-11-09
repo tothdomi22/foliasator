@@ -43,12 +43,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT username FROM users WHERE username = '$user'"; // Select username from users where username is $user.
+$sql = "SELECT username, email FROM users WHERE username = '$user' or email = '$email'"; // Select username from users where username is $user.
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // The username already exists in the database
-    $error_messagereg = "A felhasználónév már létezik.";
+    $error_messagereg = "A felhasználónév vagy email cím már létezik.";
     header("Location: index.php?error_messagereg=" . urlencode($error_messagereg));
     exit;
 } else {

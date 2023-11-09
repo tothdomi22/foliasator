@@ -3,6 +3,7 @@
  * this php reads the config file and converts the data in it into a variable.
  */
 
+
 if (!isset($_SESSION['configuration'])) {
     // If configuration is not already stored in the session, load it from the JSON file
     $configFile = 'config.json';
