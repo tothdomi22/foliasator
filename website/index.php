@@ -20,6 +20,42 @@ if ($token_is_valid==1) { // if the jwt token is valid this change the page to $
 <html lang="hu">
 <head>
     <title>Regisztráció</title>
+    <style>
+        body
+        {
+            margin: 0;
+            padding: 0;
+            font font-family: 'Poppins', sans-serif;
+            color: white;
+            background-color: #37474f;
+        }
+        h2 {
+            color: #ffffff;
+            width: 250px;
+            height: 93px;
+            background-color: #2C87BF;
+            border-radius: 15px;
+            text-align: center;
+            line-height: 99px;
+            font-size: 35px;
+        }
+        label {
+            color: #ffffff;
+            font-size: 25px;
+           }
+           input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="submit"] {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            }
+            .error {
+            color: red;     
+        }
+    </style>
 </head>
 <body>
 <h2>Regisztráció</h2>
