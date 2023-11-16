@@ -2,7 +2,11 @@
 /*
  * This php get the date from the sql and convert into json.
  */
-include('get_config_json.php');
+require_once 'vendor/autoload.php';
+
+use Configurat\ConfigurationLoader;
+
+ConfigurationLoader::loadConfiguration();
 $configuration = $_SESSION['configuration'];
 
 // Access the configuration variables like this:
@@ -13,7 +17,7 @@ $password = $configuration['password'];
 
 header('Content-Type: application/json');
 
-$mysqli = new mysqli($servername,$username ,$password ,$dbname);
+$mysqli = new mysqli($servername, $username, $password, $dbname);
 
 $query = "SELECT distance, moisture, humidity, temperature, lightSensor, reading_time FROM foliasator  ORDER BY ID";
 $result = $mysqli->query($query);

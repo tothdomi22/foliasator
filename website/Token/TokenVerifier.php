@@ -1,12 +1,15 @@
 <?php
+namespace Token;
 
-require 'vendor/autoload.php'; // Include the JWT library
+require_once 'vendor/autoload.php'; // Include the JWT library
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-function verifyToken($tokens, $secrets) {
-    try {
+class TokenVerifier
+{
+    public static function verifyToken($tokens, $secrets)
+    {
         // Az aktuális időpont lekérése
         $currentTime = time();
 
@@ -22,8 +25,6 @@ function verifyToken($tokens, $secrets) {
         } else {
             return 0; // Token lejárt
         }
-    } catch (Exception $e) {
-        return 0; // Token érvénytelen
     }
 }
 

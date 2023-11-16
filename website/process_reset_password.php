@@ -1,16 +1,16 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
 
-require 'vendor/autoload.php'; // Include the JWT library
+require_once 'vendor/autoload.php'; // Include the JWT library
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Cookies\TokenManager;
 
-include('get_config_json.php');
+use Configurat\ConfigurationLoader;
+
+ConfigurationLoader::loadConfiguration();
 $configuration = $_SESSION['configuration'];
 
 // Access the configuration variables like this:
@@ -37,16 +37,17 @@ if (strlen($new_user_password) < 8) {
     $error_message_new_user_password = "A jelszónak tartalmaznia kell legalább egy speciális karaktert.";
 }
 
-if($new_user_password != $new_user_password_again ){
+if ($new_user_password != $new_user_password_again) {
     $error_message_new_user_password_again = "A megadott jelszavak nem egyeznek";
 }
 // If the password does not meet the criteria, we return to the registration page with an error message.
-if (isset($error_message_new_user_password)){
-    header("Location: reset_password.php?error_message_new_user_password=" . urlencode($error_message_new_user_password));
+if (isset($error_message_new_user_password)) {
+    header("Location: reset_password.php?error_message_new_user_password="
+        . urlencode($error_message_new_user_password));
     exit;
-}
-elseif (isset($error_message_new_user_password_again)){
-    header("Location: reset_password.php?error_message_new_user_password_again=" . urlencode($error_message_new_user_password_again));
+} elseif (isset($error_message_new_user_password_again)) {
+    header("Location: reset_password.php?error_message_new_user_password_again="
+        . urlencode($error_message_new_user_password_again));
     exit;
 }
 
@@ -59,7 +60,7 @@ if (isset($_SESSION['reset_password_token'])) {
     $reset_password_token = $_SESSION['reset_password_token'];
 
     // Dekódoljuk a JWT tokent
-    $decoded_token = JWT::decode($reset_password_token, new Key( $reset_password_secret,'HS256'));
+    $decoded_token = JWT::decode($reset_password_token, new Key($reset_password_secret, 'HS256'));
 
     if (isset($decoded_token->user_id)) {
         $user_id = $decoded_token->user_id;
@@ -74,10 +75,9 @@ if (isset($_SESSION['reset_password_token'])) {
             // Ha nincs változtatni való, mert az adatok már megfelelők
             echo "Nincs változtatni való.";
         }
-        
+
         // Egyéb műveletek, például setCookies($user_id)
-        include('set_cookies.php');
-        setCookies($user_id);
+        TokenManager::setCookies($user_id);
     } else {
         // Hiba: A JWT token nem tartalmaz user_id tulajdonságot
         echo "A JWT token hibás vagy hiányos.";

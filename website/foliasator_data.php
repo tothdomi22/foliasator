@@ -1,62 +1,74 @@
 <!DOCTYPE html>
-<html lang="hu"><body>
-<?php
+<html lang="hu">
+
+<head>
+  <title>
+    Foliasatordata
+  </title>
+</head>
+
+<body>
+  <?php
 
 
-include('get_config_json.php');
-$configuration = $_SESSION['configuration'];
+  use Configurat\ConfigurationLoader;
 
-// Access the configuration variables like this:
-$servername = $configuration['servername'];
-$dbname = $configuration['dbname'];
-$username = $configuration['username'];
-$password = $configuration['password'];
+  ConfigurationLoader::loadConfiguration();
+  $configuration = $_SESSION['configuration'];
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+  // Access the configuration variables like this:
+  $servername = $configuration['servername'];
+  $dbname = $configuration['dbname'];
+  $username = $configuration['username'];
+  $password = $configuration['password'];
 
-if ($conn->connect_error) {
+  $conn = new mysqli($servername, $username, $password, $dbname);
+
+  if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-} 
+  }
 
-$sql = "SELECT id, distance, moisture, humidity, temperature, lightSensor, reading_time FROM foliasator ORDER BY id DESC";
+  $sql = "SELECT id, distance, moisture, humidity, temperature, lightSensor, reading_time
+  FROM foliasator ORDER BY id DESC";
 
-echo '<table cellspacing="5" cellpadding="5">
-      <tr> 
-        <td>ID</td> 
-        <td>Distance</td> 
+  echo '<table cellspacing="5" cellpadding="5">
+      <tr>
+        <td>ID</td>
+        <td>Distance</td>
         <td>Moisture</td>
         <td>Humidity</td>
         <td>Temperature</td>
         <td>Light Sensor</td>
         <td>Timestamp</td>
       </tr></table>';
- 
-if ($result = $conn->query($sql)) {
+
+  if ($result = $conn->query($sql)) {
     while ($row = $result->fetch_assoc()) {
-        $row_id = $row["id"];
-        $row_distance = $row["distance"];
-        $row_moisture = $row["moisture"]; 
-        $row_humidity = $row["humidity"]; 
-        $row_temperature = $row["temperature"];
-        $row_lightSensor = $row["lightSensor"];
-        $row_reading_time = $row["reading_time"];
+      $row_id = $row["id"];
+      $row_distance = $row["distance"];
+      $row_moisture = $row["moisture"];
+      $row_humidity = $row["humidity"];
+      $row_temperature = $row["temperature"];
+      $row_lightSensor = $row["lightSensor"];
+      $row_reading_time = $row["reading_time"];
 
 
-        echo '<tr> 
-                <td>' . $row_id . '</td> 
-                <td>' . $row_distance . '</td> 
+      echo '<tr>
+                <td>' . $row_id . '</td>
+                <td>' . $row_distance . '</td>
                 <td>' . $row_moisture . '</td>
                 <td>' . $row_humidity . '</td>
                 <td>' . $row_temperature . '</td>
                 <td>' . $row_lightSensor . '</td>
-                <td>' . $row_reading_time . '</td> 
+                <td>' . $row_reading_time . '</td>
               </tr>';
     }
     $result->free();
-}
+  }
 
-$conn->close();
-?> 
+  $conn->close();
+  ?>
 
 </body>
+
 </html>

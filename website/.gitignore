@@ -1,0 +1,6 @@
+# Ignore the entire vendor directory
+/vendor/
+/fonts/
+/css/
+/images/
+/.vscode/
