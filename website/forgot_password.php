@@ -11,7 +11,6 @@
 
         .header {
             background-color: #0074cc;
-            /* Kék háttérszín */
             color: white;
             padding: 10px;
         }
@@ -37,7 +36,6 @@
 
         .reset-password-body input[type="submit"] {
             background-color: #0074cc;
-            /* Kék színű gomb */
             color: white;
             padding: 10px 20px;
             border: none;

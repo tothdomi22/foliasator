@@ -10,20 +10,20 @@ class TokenVerifier
 {
     public static function verifyToken($tokens, $secrets)
     {
-        // Az aktuális időpont lekérése
+        // Get current time
         $currentTime = time();
 
-        // Token dekódolása
+        // Token dekoding
         $token = JWT::decode($tokens, new Key($secrets, 'HS256'));
 
-        // Lejárati idő lekérése a tokenből
+        // Get expiration time
         $expirationTime = $token->exp;
 
-        // Ellenőrzés, hogy a token még érvényes-e
+        // Check if token is valid
         if ($currentTime <= $expirationTime) {
-            return 1; // Token érvényes
+            return 1; // Token valid
         } else {
-            return 0; // Token lejárt
+            return 0; // Token invalid
         }
     }
 }

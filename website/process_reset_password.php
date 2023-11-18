@@ -59,27 +59,26 @@ $conn = new mysqli($servername, $username, $password, $dbname); // Connect to sq
 if (isset($_SESSION['reset_password_token'])) {
     $reset_password_token = $_SESSION['reset_password_token'];
 
-    // Dekódoljuk a JWT tokent
+    // Token deckoding
     $decoded_token = JWT::decode($reset_password_token, new Key($reset_password_secret, 'HS256'));
 
     if (isset($decoded_token->user_id)) {
         $user_id = $decoded_token->user_id;
-        // Most már használhatod a helyes $user_id értéket
+        // Update the password in the database
         $sql = "UPDATE users SET password_hash = '$passwordHash' WHERE user_id = '$user_id'";
         $result = $conn->query($sql);
 
         if ($result === false) {
-            // Ha a művelet nem sikerült
+            // if the password update is unsuccessful
             echo "A jelszó frissítése sikertelen.";
         } elseif ($conn->affected_rows == 0) {
-            // Ha nincs változtatni való, mert az adatok már megfelelők
+            // if the the password is the same as the old one
             echo "Nincs változtatni való.";
         }
 
-        // Egyéb műveletek, például setCookies($user_id)
+        // set the cookies
         TokenManager::setCookies($user_id);
     } else {
-        // Hiba: A JWT token nem tartalmaz user_id tulajdonságot
         echo "A JWT token hibás vagy hiányos.";
     }
 } else {

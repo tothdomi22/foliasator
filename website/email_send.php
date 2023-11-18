@@ -54,10 +54,10 @@ if ($result->num_rows > 0) {
         $user_id = $row["user_id"];
     }
     $reset_password_token_data = array(
-        'user_id' => $user_id, // Példa adat: felhasználói azonosító
-        'exp' => $reset_password_token_expiry, // A lejárati idő beállítása 1 óra múlva
+        'user_id' => $user_id, //User id
+        'exp' => $reset_password_token_expiry, //Token expiry time (current time + 1 hour)
     );
-    $reset_password_token = JWT::encode(
+    $reset_password_token = JWT::encode( // Generate token
         $reset_password_token_data,
         $reset_password_secret,
         'HS256',
