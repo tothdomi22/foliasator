@@ -1,6 +1,10 @@
 <?php
+require_once 'vendor/autoload.php';
 
-include('get_config_json.php');
+use Cookies\TokenManager;
+use Configurat\ConfigurationLoader;
+
+ConfigurationLoader::loadConfiguration();
 $configuration = $_SESSION['configuration'];
 
 // Access the configuration variables like this:
@@ -8,7 +12,7 @@ $servername = $configuration['servername'];
 $dbname = $configuration['dbname'];
 $username = $configuration['username'];
 $password = $configuration['password'];
-$URL = $configuration['URL'];
+$url = $configuration['URL'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password_log = $_POST['password_log'] ?? null;
@@ -32,12 +36,11 @@ if ($result->num_rows > 0) {
 } else {
     // The login is not successful, because there is no user with this username.
     $error_messagelog = "Hibás felhasználónév vagy jelszó!";
-    //echo $error_message;
     header("Location: index.php?error_messagelog=" . urlencode($error_messagelog));
     exit;
 }
 
-if (password_verify($password_log , $storedPasswordHash)) {
+if (password_verify($password_log, $storedPasswordHash)) {
     // The login is successful.
     $login = 1;
     $_SESSION['username'] = $user;
@@ -52,9 +55,7 @@ if (password_verify($password_log , $storedPasswordHash)) {
 $conn->close();
 
 if ($login == 1) { // If the login is successful set cookies
-    include('set_cookies.php');
-    setCookies($user_id);
-}
-else{
-    header("Location:$URL/index.php"); // if login is not successful change the page to $URL/index.php
+    TokenManager::setCookies($user_id);
+} else {
+    header("Location:$url/index.php"); // if login is not successful change the page to $URL/index.php
 }

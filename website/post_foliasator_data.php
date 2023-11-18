@@ -1,6 +1,9 @@
 <?php
+require_once 'vendor/autoload.php';
 
-include('get_config_json.php');
+use Configurat\ConfigurationLoader;
+
+ConfigurationLoader::loadConfiguration();
 $configuration = $_SESSION['configuration'];
 
 // Access the configuration variables like this:
@@ -11,44 +14,42 @@ $password = $configuration['password'];
 
 $api_key_value = "tPmAT5Ab3j7F9";
 
-$api_key= $distance = $moisture = $humidity = $temperature = $lightSensor = "";
+$api_key = $distance = $moisture = $humidity = $temperature = $lightSensor = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $api_key = test_input($_POST["api_key"]);
-    if($api_key == $api_key_value) {
-        $distance = test_input($_POST["distance"]);
-        $moisture = test_input($_POST["moisture"]);
-        $humidity = test_input($_POST["humidity"]);
-        $lightSensor = test_input($_POST["lightSensor"]);
-        $temperature = test_input($_POST["temperature"]);
-        
+    $api_key = TestInput($_POST["api_key"]);
+    if ($api_key == $api_key_value) {
+        $distance = TestInput($_POST["distance"]);
+        $moisture = TestInput($_POST["moisture"]);
+        $humidity = TestInput($_POST["humidity"]);
+        $lightSensor = TestInput($_POST["lightSensor"]);
+        $temperature = TestInput($_POST["temperature"]);
+
         $conn = new mysqli($servername, $username, $password, $dbname);
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
-        } 
-        
+        }
+
         $sql = "INSERT INTO foliasator (distance, moisture, humidity, temperature, lightSensor)
-        VALUES ('" . $distance . "', '" . $moisture . "', '" . $humidity . "', '" . $temperature . "', '" . $lightSensor . "')";
-        
-        if ($conn->query($sql) === TRUE) {
+        VALUES ('" . $distance . "', '" . $moisture . "
+        ', '" . $humidity . "', '" . $temperature . "', '" . $lightSensor . "')";
+
+        if ($conn->query($sql) === true) {
             echo "New record created successfully";
-        } 
-        else {
+        } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }
-    
+
         $conn->close();
-    }
-    else {
+    } else {
         echo "Wrong API Key provided.";
     }
 
-}
-else {
+} else {
     echo "No data posted with HTTP POST.";
 }
 
-function test_input($data): string
+function testInput($data): string
 {
     $data = trim($data);
     $data = stripslashes($data);
