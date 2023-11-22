@@ -74,7 +74,10 @@ function createChart(elementId, label, data, reading_data) {
                 scales: {
                     x: {
                         grid: { color: "rgba(255,255,255,0.3)" },
-                        ticks: { display: false }
+                        ticks: {
+                            maxTicksLimit: 4,
+                            color: "rgba(255,255,255,1.3)"
+                            }
                     },
                     y: {
                         grid: { color: "rgba(255,255,255,0.3)" },
